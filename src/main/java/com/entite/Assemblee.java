@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -47,14 +48,18 @@ public class Assemblee {
     public Personne getUnePersonne(@PathParam("index") String index){
         return personnes.get(Integer.parseInt(index));
     }
-   @POST
-   @Produces(MediaType.APPLICATION_JSON)
+    
+   @PUT
+   @Path("/ajout")
    @Consumes(MediaType.APPLICATION_JSON)
-   @Path("/{ajout}")
-    public void ajouterPersonne(@PathParam("ajout") String index){
-        Personne p = (Personne)new Gson().fromJson(index, Personne.class);
-        getListePersonne().add(p);  
+   @Produces(MediaType.TEXT_PLAIN)
+    public boolean ajouterPersonne(String per){
+        Personne personne = new Gson().fromJson(per, Personne.class);
+       System.out.println("personne ajoutee: "+personne.getNom());
+       getListePersonne().add(personne);  
+        return true;
     }
+    
      @GET
     public Response ping(){
         return Response
