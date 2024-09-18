@@ -22,9 +22,10 @@ import java.util.ArrayList;
  */
 @Path("assemblee")
 public class Assemblee {
-    private ArrayList<Personne> personnes;
+    private ArrayList<Personne>personnes = new ArrayList<>();
+        
+        
     public Assemblee(){
-        personnes = new ArrayList<>();
         personnes.add(new Personne("Theodore","Wideline"));
         personnes.add(new Personne("Baptiste","Nephthalie"));
         personnes.add(new Personne("Joseph","Collegue"));
@@ -34,6 +35,9 @@ public class Assemblee {
     
     public ArrayList<Personne> getListePersonne(){
         return personnes;
+    }
+    public void ajouterPersonne(Personne p){
+        getListePersonne().add(p);
     }
    @GET
    @Produces(MediaType.APPLICATION_JSON)
@@ -53,11 +57,12 @@ public class Assemblee {
    @Path("/ajout")
    @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.TEXT_PLAIN)
-    public boolean ajouterPersonne(String per){
+    public String ajouterPersonne(String per){
         Personne personne = new Gson().fromJson(per, Personne.class);
-       System.out.println("personne ajoutee: "+personne.getNom());
-       getListePersonne().add(personne);  
-        return true;
+        System.out.println("personne ajoutee: "+personne.getPrenom());
+        ajouterPersonne(personne);  
+        String reponse = ""+getListePersonne().size();
+        return reponse;
     }
     
      @GET
